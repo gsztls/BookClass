@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RoomSelect.aspx.cs" Inherits="RoomSelect" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CancelBook.aspx.cs" Inherits="RoomSelect" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -88,11 +88,6 @@
                                 PropertyName="SelectedValue" Type="String" />
                         </SelectParameters>
                     </asp:SqlDataSource>
-                    起始时间：<asp:DropDownList ID="Drop_StartTime" runat="server" AutoPostBack="true" 
-                        onselectedindexchanged="Drop_StartTime_SelectedIndexChanged" >
-        </asp:DropDownList>
-                    结束时间：<asp:DropDownList ID="Drop_EndTime" runat="server">
-        </asp:DropDownList>
 				    <asp:Button ID="Button1" runat="server" Text="查询" onclick="Button1_Click" />
 				</div>
 				<div id="info3">
@@ -103,13 +98,12 @@
 					</span>
 					</span>
                     <asp:GridView ID="GridView_BookList" runat="server" Height="89px" 
-                        Width="997px" Visible="False" AllowPaging="True" PageSize="17" 
+                        Width="997px" AllowPaging="True" PageSize="25" 
                         CellPadding="4" ForeColor="#333333" GridLines="None" 
                         onpageindexchanging="GridView_BookList_PageIndexChanging" 
-                        HorizontalAlign="Center" onrowediting="GridView_BookList_RowEditing" 
+                        HorizontalAlign="Center" 
                         AutoGenerateColumns ="false" 
-                        onrowcancelingedit="GridView_BookList_RowCancelingEdit" 
-                        onrowupdating="GridView_BookList_RowUpdating">
+                        onrowdeleting="GridView_BookList_RowDeleting">
                         <RowStyle HorizontalAlign="Center" />  
                         <AlternatingRowStyle BackColor="White" />
                         <EditRowStyle BackColor="#EFF3FB" HorizontalAlign="Center" VerticalAlign="Middle" />
@@ -133,17 +127,23 @@
                                     --<asp:Label ID="Label5" runat="server" Text='<%# Eval("EndTime") %>'></asp:Label>
                                     <br />
                                     <br />
-                                    预约用途：<br /> <br/> <asp:TextBox ID="TextBox1" runat="server" TextMode="MultiLine" 
-                                        ></asp:TextBox>
+                                    预约同学姓名：<asp:Label ID="Label13" runat="server" Text='<%# Eval("BookStuName") %>'></asp:Label>
+                                    &nbsp;&nbsp;&nbsp; 预约同学学号：<asp:Label ID="Label14" runat="server" 
+                                        Text='<%# Eval("BookStuNum") %>'></asp:Label>
                                     <br />
                                     <br />
-                                    <asp:Button ID="Button2" runat="server" CommandName="Update" Text="提交" />
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    预约用途：<asp:Label ID="Label15" runat="server" Text='<%# Eval("BookReason") %>'></asp:Label>
+                                    <br />
+                                    <br />
+                                    <asp:Button ID="Button2" runat="server" CommandName="Update" Text="同意" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="Button4" runat="server" 
+                                        CommandName="Delete" Text="拒绝" />
+                                    &nbsp;&nbsp;&nbsp;
                                     <asp:Button ID="Button3" runat="server" CommandName="Cancel" Text="取消" />
                                     <br />
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                <table style="width: 1049px">
+                                <table style="width: 1036px">
                                 <tr>
                                 <td>
                                     <asp:Label ID="Label6" runat="server" Text='<%# Eval("ID") %>'></asp:Label></td>
@@ -152,8 +152,8 @@
                                             <asp:Label ID="Label9" runat="server" Text='<%# Eval("BookDate") %>'></asp:Label></td><td>
                                                 <asp:Label ID="Label10" runat="server" Text='<%# Eval("StartTime") %>'></asp:Label></td><td>
                                                     <asp:Label ID="Label11" runat="server" Text='<%# Eval("EndTime") %>'></asp:Label></td>
-                                                    <td><asp:Label ID="Label12" runat="server" Text='<%# Eval("IsBooked") %>'></asp:Label></td>
-                                <td><asp:LinkButton ID="LinkButton1" runat="server" CommandName="Edit">点击预约</asp:LinkButton></td>
+                                                    
+                                <td><asp:LinkButton ID="LinkButton1" runat="server" CommandName="Delete" OnClientClick="{if(confirm('确定取消？')){return true;}return false;}">取消预约</asp:LinkButton></td>
                                 </tr>
                                 </table>
                                 </ItemTemplate>

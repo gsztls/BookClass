@@ -12,18 +12,22 @@ using System.Collections;
 public partial class RoomSelect : System.Web.UI.Page
 {
     public int BookDay = 7;   //可提前预约的天数，默认可提前7天预约
+    public int NeedDay = 3;  //需要提前预约天数，默认必须提前3天预约
     public string strcon = ConfigurationManager.AppSettings["strconnection"];
-    public DataSet DtClass = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[ClassList]");
 
     protected void Page_Load(object sender, EventArgs e)
     {
-       // CheckLogin();
+        // CheckLogin();
 
-        //以下代码用于获取管理员设置的教室可提前预约的天数
+        //以下代码用于获取管理员设置的教室可提前预约的天数和需要提前预约的天数
         DataSet dtSystem = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[System]");
         if (dtSystem.Tables[0].Rows[0][1] != null)    //如果有设置则为设置的值
         {
             BookDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][1].ToString());
+        }
+        if (dtSystem.Tables[0].Rows[0][2] != null)    //如果有设置则为设置的值
+        {
+            BookDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
         }
         if (!IsPostBack)
         {
@@ -43,7 +47,7 @@ public partial class RoomSelect : System.Web.UI.Page
     }
     public void DropTimeBind()//以下代码为Drop_StartTime 、Drop_EndTime绑定数据
     {
-        
+
         ArrayList ArrTime = new ArrayList();
         for (int i = 0; i <= BookDay; i++)
         {
@@ -77,7 +81,7 @@ public partial class RoomSelect : System.Web.UI.Page
 
     public void CheckLogin() //以下代码检测用户登录参数是否正确
     {
-        
+
         String StuId = (string)Session["StuId"];
         DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='" + StuId + "'");
         if (dt.Tables[0].Rows.Count == 0)
@@ -95,7 +99,7 @@ public partial class RoomSelect : System.Web.UI.Page
             label_user.Text = dt1.Tables[0].Rows[0][3].ToString();
         }
     }
-    
+
     protected void Log_Off(object sender, EventArgs e)
     {
         Session.Abandon();
@@ -105,7 +109,7 @@ public partial class RoomSelect : System.Web.UI.Page
     protected void Drop_Address_SelectedIndexChanged(object sender, EventArgs e)
     {
         //地址改变后改变对应的教室编号
-        string strcon = ConfigurationManager.AppSettings["strconnection"];     
+        string strcon = ConfigurationManager.AppSettings["strconnection"];
         SqlConnection con = new SqlConnection(strcon);
         SqlDataAdapter adaClassNum = new SqlDataAdapter("SELECT * FROM [BookClass].[dbo].[ClassList] WHERE [Address]='" + Drop_Address.SelectedValue + "'", con);
         DataSet ds = new DataSet();
@@ -116,11 +120,11 @@ public partial class RoomSelect : System.Web.UI.Page
         Drop_ClassNum.DataValueField = "ClassNum";
         Drop_ClassNum.DataBind();
     }
-    
+
     protected void Drop_StartTime_SelectedIndexChanged(object sender, EventArgs e)   //开始时间改变后为Drop_EndTime绑定数据
     {
         ArrayList ArrEndTime = new ArrayList();
-        DateTime StartTime = Convert.ToDateTime(Drop_StartTime.SelectedValue .ToString());
+        DateTime StartTime = Convert.ToDateTime(Drop_StartTime.SelectedValue.ToString());
         for (int i = 0; i <= BookDay; i++)
         {
             int IntSelectEndYear = StartTime.AddDays(i).Year;
@@ -136,50 +140,107 @@ public partial class RoomSelect : System.Web.UI.Page
 
     protected void GridView_BookListBind()    //为GridView绑定数据
     {
-        SqlDataAdapter AdaBook = new SqlDataAdapter("SELECT Address AS '地址',ClassNum AS '教室编号',BookDate AS '预约日期',StartTime AS '开始时间',EndTime AS '结束时间' , IsBooked AS '预约情况' FROM [BookList] WHERE Address = '"+Drop_Address.SelectedValue+"' AND ClassNum='"+Drop_ClassNum.SelectedValue+"' AND BookDate ='"+Drop_StartTime+"' AND IsBooked ='1'", strcon);
+        if (Drop_Address.SelectedValue == "——请选择——")
+        {
+            Response.Write("<script>alert('请选择教室地址和编号！')</script>");
+            return;
+        }
+        DataSet DtClass = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[ClassList] WHERE [Address]='"+Drop_Address.SelectedValue+"' AND [ClassNum] ='"+Drop_ClassNum.SelectedValue+"'");
+        SqlDataAdapter AdaBook = new SqlDataAdapter("SELECT ID,Address,ClassNum,BookDate,StartTime,EndTime , IsBooked  FROM [BookList]", strcon);
         DataTable DtBook = new DataTable();
         AdaBook.Fill(DtBook);
-        DataTable DtGrid =DtBook;
+        DataTable DtGrid = DtBook;
         DtGrid.Rows.Clear();
-        string [] DayStartClock = new string[]{"8:00","10:00","12:00","14:00","16:00","19:00","21:00" };
-        string[] DayEndClock = new string[] { "10:00", "12:00", "14:00", "16:00", "18:00", "21:00", "23:00"};
-        for (int i = 0; i < DtClass.Tables[0].Rows.Count; i++ )
+        string[] DayStartClock = new string[] { "8:00", "10:00", "12:00", "14:00", "16:00", "19:00", "21:00" };
+        string[] DayEndClock = new string[] { "10:00", "12:00", "14:00", "16:00", "18:00", "21:00", "23:00" };
+        DateTime AssStartDate = Convert.ToDateTime(Drop_StartTime.SelectedValue);
+        DateTime AssEndDate = Convert.ToDateTime(Drop_StartTime.SelectedValue);
+        int RowsCount=0;
+        for (int i = 0; i < DtClass.Tables[0].Rows.Count; i++)
         {
-            for (int j = 0; j <= DtBook.Rows.Count; j++)
+            for (int k = 0; k <= BookDay; k++)
             {
-                if (DtClass.Tables[0].Rows[i]["Address"] == DtBook.Rows[j]["Address"] && DtClass.Tables[0].Rows[i]["ClassNum"] == DtBook.Rows[j]["ClassNum"])  //教室列表和预约列表的教室相对应
+                DateTime RAssDate = AssStartDate.AddDays(k);
+                for (int l = 0; l < DayStartClock.Count(); l++)      //按时段检索修改DtGrid
                 {
-                    DateTime AssStartDate = Convert.ToDateTime(Drop_StartTime.SelectedValue);
-                    DateTime AssEndDate = Convert.ToDateTime(Drop_StartTime.SelectedValue);
-                    for (int k = 0; k <= BookDay; k++)
+                    RowsCount += 1;
+                    DataSet DsBook = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE [Address] = '" + DtClass.Tables[0].Rows[i]["Address"] + "' AND ClassNum = '" + DtClass.Tables[0].Rows[i]["ClassNum"] + "' AND BookDate = '" + RAssDate.ToLongDateString() + "' AND StartTime = '" + DayStartClock[l] + "' AND IsBooked <>'3'");
+                    if (DsBook.Tables[0].Rows.Count > 0)
                     {
-                        DateTime RAssDate = AssStartDate.AddDays(k);
-                        for (int l = 0; l < DayStartClock.Count(); l++)      //按时段检索修改DtGrid
-                        {
-                            if (Convert.ToDateTime(DtBook.Rows[j]["BookDate"]) == RAssDate && DtBook.Rows[j]["StartTime"].ToString() == DayStartClock[k] && DtBook.Rows[j]["IsBooked"].ToString() == "1")
-                            {
-                                DtGrid.Rows.Add(i + 1, DtClass.Tables[0].Rows[i]["Address"], DtClass.Tables[0].Rows[i]["ClassNum"], DtBook.Rows[j]["BookDate"], DtBook.Rows[j]["StartTime"], DtBook.Rows[j]["EndTime"], DtBook.Rows[j]["BookStuNum"], "已预约");
-                            }
-                            else
-                            {
-                                DtGrid.Rows.Add(i + 1, DtClass.Tables[0].Rows[i]["Address"], DtClass.Tables[0].Rows[i]["ClassNum"], Drop_StartTime.SelectedValue.ToString(), DtBook.Rows[j]["StartTime"], DtBook.Rows[j]["EndTime"], DtBook.Rows[j]["BookStuNum"], "点击预约");
-                            }
-                        }
-                        if (RAssDate == Convert.ToDateTime(Drop_EndTime)) break;   //不在选择时间段则跳出循环
+                        DtGrid.Rows.Add( RowsCount ,DtClass.Tables[0].Rows[i]["Address"], DtClass.Tables[0].Rows[i]["ClassNum"], RAssDate.ToLongDateString(), DayStartClock[l], DayEndClock[l], "已预约");
                     }
+                    else 
+                    {
+                        DtGrid.Rows.Add( RowsCount , DtClass.Tables[0].Rows[i]["Address"], DtClass.Tables[0].Rows[i]["ClassNum"], RAssDate.ToLongDateString(), DayStartClock[l], DayEndClock[l], "可预约");
+                    }
+                    
                 }
+                if (RAssDate.ToLongDateString() == Drop_EndTime.SelectedValue) break;
             }
         }
-
         GridView_BookList.DataSource = DtGrid;
         GridView_BookList.DataKeyNames = new string[] { "ID" };
         GridView_BookList.DataBind();
-
     }
 
     protected void Button1_Click(object sender, EventArgs e)
     {
         GridView_BookListBind();
         GridView_BookList.Visible = true;
+    }
+    protected void GridView_BookList_PageIndexChanging(object sender, GridViewPageEventArgs e)   //分页
+    {
+        GridView_BookList.PageIndex = e.NewPageIndex;
+        GridView_BookListBind();
+    }
+    protected void GridView_BookList_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        GridView_BookList.EditIndex = e.NewEditIndex;
+        GridView_BookListBind();
+    }
+    protected void GridView_BookList_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        GridView_BookList.EditIndex = -1;
+        GridView_BookListBind();
+    }
+    protected void GridView_BookList_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+      //  CheckLogin();
+        string ID = GridView_BookList.DataKeys[e.RowIndex].Value.ToString(); 
+        string Address = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label1"))).Text.ToString().Trim();
+        string ClassNum = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label2"))).Text.ToString().Trim();
+        string BookDate = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label3"))).Text.ToString().Trim();
+        string StartTime = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label4"))).Text.ToString().Trim();
+        string EndTime = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label5"))).Text.ToString().Trim();
+        string IsBooked = "等待管理员通过";
+        string BookStuNum = (string)Session["StuId"];
+        DataSet DsUserinfo = SqlHelper.ExecuteDataset(CommandType.Text,"SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId = '"+BookStuNum+"'");
+        string BookStuName = DsUserinfo.Tables[0].Rows[0]["UserName"].ToString();
+        string BookReason = ((TextBox)(GridView_BookList.Rows[e.RowIndex].FindControl("TextBox1"))).Text.ToString().Trim();
+        DataSet DsBookList = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE Address = '"+Address+"' AND ClassNum ='"+ClassNum+"' AND BookDate = '"+BookDate+"' AND StartTime = '"+StartTime+"'");
+        if (DsBookList.Tables[0].Rows.Count>0)
+        {
+            Response.Write("<script>alert('此教室已经被预约！')</script>");
+            GridView_BookList.EditIndex = -1;
+            GridView_BookListBind();
+            return;
+        }
+        if (BookReason == "")
+        {
+            Response.Write("<script>alert('预约用途不能为空！')</script>");
+            return;
+        }
+        int JudgeNum = SqlHelper.ExecuteNonQuery(CommandType.Text,"INSERT INTO [BookClass].[dbo].[BookList](Address,ClassNum,BookDate,StartTime,EndTime,BookStuNum,IsBooked,BookReason,BookStuName) VALUES ('"+Address+"','"+ClassNum+"','"+BookDate+"','"+StartTime+"','"+EndTime+"','"+BookStuNum+"','"+IsBooked+"','"+BookReason+"','"+BookStuName+"')");
+        GridView_BookList.EditIndex = -1;
+        GridView_BookListBind();
+        if (JudgeNum > 0)
+        {
+            Response.Write("<script>alert('预约成功，请等待管理员审核。')</script>");
+        }
+        else
+        {
+            Response.Write("<script>alert('预约失败。')</script>");
+            return;
+        }
     }
 }
