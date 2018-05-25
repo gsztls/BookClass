@@ -23,20 +23,20 @@
 		</div>
 		<div class="logoff">
 			<a href="#"><span><asp:label id="label_user" runat="server" Text="这里是姓名"></asp:label>（<asp:label ID="label_stuNum" runat="server" Text="这里是学号"></asp:label>）</span></a>
-			<a href="LogOff.aspx" ><img src="images/out.png" alt="注销登录"/></a>
+			<img src="images/out.png" alt="注销登录" onclick = "Log_Off"/>
 		</div>
 	</header><!-- header结束 -->
 	<div class="container">
 		<nav class="nav-list">
-			<a href="index.aspx" class="nav-item" id="nav-item1">
+			<a href="index.html" class="nav-item" id="nav-item1">
 				<span class="iconfont">&#xe63e;</span>
 				<span class="item-info">主页</span>
 			</a>
 			<a href="RoomSelect.aspx" class="nav-item" id="nav-item2">
 				<span class="iconfont">&#xe604;</span>
-				<span class="item-info">教室预约</span>
+				<span class="item-info">教室查询</span>
 			</a>
-			<a href="ContactManager.aspx" class="nav-item" id="nav-item3">
+			<a href="room_register.html" class="nav-item" id="nav-item3">
 				<span class="iconfont">&#xe601;</span>
 				<span class="item-info">联系管理员</span>
 			</a>
@@ -60,18 +60,14 @@
 				<span class="iconfont">&#xe600;</span>
 				<span class="item-info">公告栏</span>
 			</a>
-			<span class="triangle">
-        <br />
-        </span>
+			<span class="triangle"></span>
 		</nav>
 		<div class="seat-content">
 			<form runat="server">
 				<div id="info1">
-					<br />
 					教室地址：<asp:DropDownList ID="Drop_Address" runat="server"
                         DataSourceID="Sql_Address" DataTextField="Address" 
-                        DataValueField="Address"  
-                        onselectedindexchanged="Drop_Address_SelectedIndexChanged" AutoPostBack="true" >
+                        DataValueField="Address"  onselectedindexchanged="Drop_Address_SelectedIndexChanged" AutoPostBack="true">
         </asp:DropDownList>
                     <asp:SqlDataSource ID="Sql_Address" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:BookClassConnectionString %>" 
@@ -103,68 +99,7 @@
 					</span>
 					</span>
                     <asp:GridView ID="GridView_BookList" runat="server" Height="89px" 
-                        Width="997px" Visible="False" AllowPaging="True" PageSize="17" 
-                        CellPadding="4" ForeColor="#333333" GridLines="None" 
-                        onpageindexchanging="GridView_BookList_PageIndexChanging" 
-                        HorizontalAlign="Center" onrowediting="GridView_BookList_RowEditing" 
-                        AutoGenerateColumns ="false" 
-                        onrowcancelingedit="GridView_BookList_RowCancelingEdit" 
-                        onrowupdating="GridView_BookList_RowUpdating">
-                        <RowStyle HorizontalAlign="Center" />  
-                        <AlternatingRowStyle BackColor="White" />
-                        <EditRowStyle BackColor="#EFF3FB" HorizontalAlign="Center" VerticalAlign="Middle" />
-                        <FooterStyle BackColor="#6DBAF0" Font-Bold="True" ForeColor="White" />
-                        <HeaderStyle BackColor="#6DBAF0" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle BackColor="#6DBAF0" ForeColor="White" HorizontalAlign="Center" />
-                        <RowStyle BackColor="#EFF3FB" />
-                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
-                        <Columns>
-                            <asp:TemplateField FooterStyle-VerticalAlign="Middle" FooterStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right">
-                                <EditItemTemplate>
-                                    教室地址：<asp:Label ID="Label1" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 教室编号：<asp:Label ID="Label2" runat="server" Text='<%# Eval("ClassNum") %>'></asp:Label>
-                                    &nbsp;<br /> <br />预约日期：<asp:Label ID="Label3" runat="server" 
-                                        Text='<%# Eval("BookDate") %>'></asp:Label>
-                                    &nbsp;&nbsp;&nbsp; 预约时间段：<asp:Label ID="Label4" runat="server" Text='<%# Eval("StartTime") %>'></asp:Label>
-                                    --<asp:Label ID="Label5" runat="server" Text='<%# Eval("EndTime") %>'></asp:Label>
-                                    <br />
-                                    <br />
-                                    预约用途：<br /> <br/> <asp:TextBox ID="TextBox1" runat="server" TextMode="MultiLine" 
-                                        ></asp:TextBox>
-                                    <br />
-                                    <br />
-                                    <asp:Button ID="Button2" runat="server" CommandName="Update" Text="提交" />
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <asp:Button ID="Button3" runat="server" CommandName="Cancel" Text="取消" />
-                                    <br />
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                <table style="width: 1049px">
-                                <tr>
-                                <td>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("ID") %>'></asp:Label></td>
-                                    <td><asp:Label ID="Label7" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
-                                        </td><td><asp:Label ID="Label8" runat="server" Text='<%# Eval("ClassNum") %>'></asp:Label></td><td>
-                                            <asp:Label ID="Label9" runat="server" Text='<%# Eval("BookDate") %>'></asp:Label></td><td>
-                                                <asp:Label ID="Label10" runat="server" Text='<%# Eval("StartTime") %>'></asp:Label></td><td>
-                                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("EndTime") %>'></asp:Label></td>
-                                                    <td><asp:Label ID="Label12" runat="server" Text='<%# Eval("IsBooked") %>'></asp:Label></td>
-                                <td><asp:LinkButton ID="LinkButton1" runat="server" CommandName="Edit">点击预约</asp:LinkButton></td>
-                                </tr>
-                                </table>
-                                </ItemTemplate>
-
-<FooterStyle HorizontalAlign="Right" VerticalAlign="Middle"></FooterStyle>
-
-<HeaderStyle HorizontalAlign="Right"></HeaderStyle>
-
-<ItemStyle HorizontalAlign="Right"></ItemStyle>
-                            </asp:TemplateField>
-                        </Columns>
+                        Width="1071px" Visible="False">
             </asp:GridView>
 				</div>
 			</form><!--  form seat-info结束 -->

@@ -245,8 +245,7 @@ figure {
 hr {
     box-sizing: content-box; /* 1 */
     height: 0; /* 1 */
-    overflow: visible;
-    margin-bottom: 0px;
+    overflow: visible; /* 2 */
 }
 
 /* Forms
@@ -361,8 +360,6 @@ legend {
 
 textarea {
     overflow: auto;
-    height: 138px;
-    width: 738px;
 }
 
 /**

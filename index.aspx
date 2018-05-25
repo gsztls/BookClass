@@ -23,7 +23,7 @@
 		</div>
 		<div class="logoff">
 			<a href="#"><span><asp:label class="username" id="label_user" runat="server" Text="这里是姓名"></asp:label>（<asp:label class="usernum" ID="label_stuNum" runat="server" Text="这里是学号"></asp:label>）</span></a>
-			<a href="LogOff.aspx" ><img src="images/out.png" alt="注销登录"/></a>
+			<img src="images/out.png" alt="注销登录" onclick = "Log_Off"/>
 		</div>
 	</header><!-- header结束 -->
 	<div class="container">
@@ -43,7 +43,7 @@
 			<div class="register box">
 				<img src="images/write.png" alt="联系管理员" class="vertical-center"/>
 				<span class="vertical-center">联系管理员</span>
-				<a href="ContactManager.Aspx"></a>
+				<a href="room_register.html"></a>
 			</div>
 			<div class="cancel-reserve box">
 				<img src="images/delete.png" alt="取消预约" class="vertical-center"/>
@@ -58,7 +58,7 @@
 		</section>
 		<section class="reserve-record box">
 			<img src="images/record.png" alt="释放教室" class="vertical-center"/>
-			<span class="vertical-center">预约记录</span>
+			<span class="vertical-center">释放教室</span>
 			<a href="reserve_record.html"></a>
 		</section>
 		<section class="notice-board box">
@@ -70,8 +70,9 @@
 			<a href="notice.html"></a>
 		</section>
 		<section class="default-record box">
-			<img src="images/wrong.png" alt="更多功能" class="vertical-center"/>
-			<span class="vertical-center">更多功能研发中……</span>
+			<img src="images/wrong.png" alt="超时使用记录" class="vertical-center"/>
+			<span class="vertical-center">超时记录</span>
+			<a href="default_record.html"></a>
 		</section>
 	</div><!-- container结束 -->
 </body>

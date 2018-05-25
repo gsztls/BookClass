@@ -19,6 +19,7 @@ public partial class login : System.Web.UI.Page
         if (name == "" || pwd == "")
         {
             Response.Write("<script>alert('请将登录信息填写完整！');</script>");
+            Response.End();
             return;
         }
         DataSet dt =SqlHelper.ExecuteDataset(CommandType.Text,"SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='"+name+"' AND Password = '"+pwd+"'");
@@ -35,6 +36,7 @@ public partial class login : System.Web.UI.Page
         else
             {
                 Response.Write("<script>alert('用户名或密码错误！');</script>");
+                Response.End();
                 return;
             }
    }
