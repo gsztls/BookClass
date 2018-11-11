@@ -7,7 +7,7 @@
 	<meta charset="UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>  <!-- 以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->  
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>中南大学教室预约系统——教室查询</title>
+	<title>取消预约——中南大学教室预约管理系统</title>
 	<link rel="stylesheet" href="css/normalize.css"/>
 	<link rel="stylesheet" href="css/common.css"/>
 	<link rel="stylesheet" href="css/room_select.css"/>
@@ -40,33 +40,29 @@
 				<span class="iconfont">&#xe601;</span>
 				<span class="item-info">联系管理员</span>
 			</a>
-			<a href="cancel_reserve.html" class="nav-item" id="nav-item4">
+			<a href="CancelBook.aspx" class="nav-item" id="nav-item4">
 				<span class="iconfont">&#xe64a;</span>
 				<span class="item-info">取消预约</span>
 			</a>
-			<a href="room_release.html" class="nav-item" id="nav-item5">
+			<a href="ClassList.aspx" class="nav-item" id="nav-item5">
 				<span class="iconfont">&#xe751;</span>
 				<span class="item-info">可借教室</span>
 			</a>
-			<a href="reserve_record.html" class="nav-item" id="nav-item6">
+			<a href="BookRecord.aspx" class="nav-item" id="nav-item6">
 				<span class="iconfont">&#xe610;</span>
-				<span class="item-info">释放教室</span>
+				<span class="item-info">预约记录</span>
 			</a>
-			<a href="default_record.html" class="nav-item" id="nav-item7">
-				<span class="iconfont">&#xe65f;</span>
-				<span class="item-info">超时使用记录</span>
-			</a>
-			<a href="notice.html" class="nav-item" id="nav-item8">
+			<a href="Notice.aspx" class="nav-item" id="nav-item8">
 				<span class="iconfont">&#xe600;</span>
 				<span class="item-info">公告栏</span>
 			</a>
-			<span class="triangle">
+			<span class="triangle" style="left:459px">
         <br />
         </span>
 		</nav>
 		<div class="seat-content">
 			<form runat="server">
-				<div id="info1">
+				<div id="info1" style="margin-left:20px">
 					<br />
 					教室地址：<asp:DropDownList ID="Drop_Address" runat="server"
                         DataSourceID="Sql_Address" DataTextField="Address" 
@@ -145,8 +141,6 @@
                                 <ItemTemplate>
                                 <table style="width: 1036px">
                                 <tr>
-                                <td>
-                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("ID") %>'></asp:Label></td>
                                     <td><asp:Label ID="Label7" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
                                         </td><td><asp:Label ID="Label8" runat="server" Text='<%# Eval("ClassNum") %>'></asp:Label></td><td>
                                             <asp:Label ID="Label9" runat="server" Text='<%# Eval("BookDate") %>'></asp:Label></td><td>

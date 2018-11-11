@@ -17,7 +17,7 @@ public partial class RoomSelect : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // CheckLogin();
+        CheckLogin();
 
         //以下代码用于获取管理员设置的教室可提前预约的天数和需要提前预约的天数
         DataSet dtSystem = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[System]");
@@ -27,7 +27,7 @@ public partial class RoomSelect : System.Web.UI.Page
         }
         if (dtSystem.Tables[0].Rows[0][2] != null)    //如果有设置则为设置的值
         {
-            BookDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
+            NeedDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
         }
         if (!IsPostBack)
         {
@@ -49,7 +49,7 @@ public partial class RoomSelect : System.Web.UI.Page
     {
 
         ArrayList ArrTime = new ArrayList();
-        for (int i = 0; i <= BookDay; i++)
+        for (int i = NeedDay ; i <= BookDay; i++)
         {
             int IntSelectYear = DateTime.Now.AddDays(i).Year;
             int IntSelectMonth = DateTime.Now.AddDays(i).Month;
@@ -83,7 +83,7 @@ public partial class RoomSelect : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='" + StuId + "'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '用户'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -125,7 +125,7 @@ public partial class RoomSelect : System.Web.UI.Page
     {
         ArrayList ArrEndTime = new ArrayList();
         DateTime StartTime = Convert.ToDateTime(Drop_StartTime.SelectedValue.ToString());
-        for (int i = 0; i <= BookDay; i++)
+        for (int i = NeedDay; i <= BookDay; i++)
         {
             int IntSelectEndYear = StartTime.AddDays(i).Year;
             int IntSelectEndMonth = StartTime.AddDays(i).Month;
@@ -158,7 +158,7 @@ public partial class RoomSelect : System.Web.UI.Page
         int RowsCount=0;
         for (int i = 0; i < DtClass.Tables[0].Rows.Count; i++)
         {
-            for (int k = 0; k <= BookDay; k++)
+            for (int k = 0; k <= BookDay ; k++)
             {
                 DateTime RAssDate = AssStartDate.AddDays(k);
                 for (int l = 0; l < DayStartClock.Count(); l++)      //按时段检索修改DtGrid
@@ -205,7 +205,7 @@ public partial class RoomSelect : System.Web.UI.Page
     }
     protected void GridView_BookList_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-      //  CheckLogin();
+        CheckLogin();
         string ID = GridView_BookList.DataKeys[e.RowIndex].Value.ToString(); 
         string Address = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label1"))).Text.ToString().Trim();
         string ClassNum = ((Label)(GridView_BookList.Rows[e.RowIndex].FindControl("Label2"))).Text.ToString().Trim();
@@ -217,8 +217,9 @@ public partial class RoomSelect : System.Web.UI.Page
         DataSet DsUserinfo = SqlHelper.ExecuteDataset(CommandType.Text,"SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId = '"+BookStuNum+"'");
         string BookStuName = DsUserinfo.Tables[0].Rows[0]["UserName"].ToString();
         string BookReason = ((TextBox)(GridView_BookList.Rows[e.RowIndex].FindControl("TextBox1"))).Text.ToString().Trim();
-        DataSet DsBookList = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE Address = '"+Address+"' AND ClassNum ='"+ClassNum+"' AND BookDate = '"+BookDate+"' AND StartTime = '"+StartTime+"'");
-        if (DsBookList.Tables[0].Rows.Count>0)
+        DataSet DsBookList = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE Address = '"+Address+"' AND ClassNum ='"+ClassNum+"' AND BookDate = '"+BookDate+"' AND StartTime = '"+StartTime+"'AND IsBooked = '等待管理员通过'");
+        DataSet DsBookList1 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE Address = '" + Address + "' AND ClassNum ='" + ClassNum + "' AND BookDate = '" + BookDate + "' AND StartTime = '" + StartTime + "'AND IsBooked = '管理员已同意'");
+        if (DsBookList.Tables[0].Rows.Count>0 || DsBookList1.Tables[0].Rows.Count >0)
         {
             Response.Write("<script>alert('此教室已经被预约！')</script>");
             GridView_BookList.EditIndex = -1;

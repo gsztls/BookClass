@@ -7,7 +7,7 @@
 	<meta charset="UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>  <!-- 以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->  
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>账号管理——中南大学教室预约系统管理员</title>
+	<title>添加账号——中南大学教室预约系统管理员</title>
 	<link rel="stylesheet" href="../css/normalize.css"/>
 	<link rel="stylesheet" href="../css/common.css"/>
 	<link rel="stylesheet" href="../css/room_select.css"/>
@@ -53,37 +53,33 @@
 	</header><!-- header结束 -->
 	<div class="container">
 		<nav class="nav-list">
-			<a href="index.aspx" class="nav-item" id="nav-item1">
+			<a href="AdminIndex.aspx" class="nav-item" id="nav-item1">
 				<span class="iconfont">&#xe63e;</span>
 				<span class="item-info">主页</span>
 			</a>
-			<a href="RoomSelect.aspx" class="nav-item" id="nav-item2">
+			<a href="DealRequre.aspx" class="nav-item" id="nav-item2">
 				<span class="iconfont">&#xe604;</span>
-				<span class="item-info">教室预约</span>
+				<span class="item-info">申请处理</span>
 			</a>
-			<a href="ContactManager.aspx" class="nav-item" id="nav-item3">
+			<a href="AccountManagement.aspx" class="nav-item" id="nav-item3">
 				<span class="iconfont">&#xe601;</span>
-				<span class="item-info" style="display: none;">账号管理</span>
+				<span class="item-info">账号管理</span>
 			</a>
-			<a href="cancel_reserve.html" class="nav-item" id="nav-item4">
+			<a href="Setting.aspx" class="nav-item" id="nav-item4">
 				<span class="iconfont">&#xe64a;</span>
-				<span class="item-info">取消预约</span>
+				<span class="item-info">系统设置</span>
 			</a>
-			<a href="room_release.html" class="nav-item" id="nav-item5">
+			<a href="ClassList.aspx" class="nav-item" id="nav-item5">
 				<span class="iconfont">&#xe751;</span>
-				<span class="item-info">可借教室</span>
+				<span class="item-info">教室列表</span>
 			</a>
-			<a href="reserve_record.html" class="nav-item" id="nav-item6">
+			<a href="ClassManagement.aspx" class="nav-item" id="nav-item6">
 				<span class="iconfont">&#xe610;</span>
-				<span class="item-info">释放教室</span>
+				<span class="item-info">教室管理</span>
 			</a>
-			<a href="default_record.html" class="nav-item" id="nav-item7">
-				<span class="iconfont">&#xe65f;</span>
-				<span class="item-info">超时使用记录</span>
-			</a>
-			<a href="notice.html" class="nav-item" id="nav-item8">
+			<a href="ManageNotice.aspx" class="nav-item" id="nav-item8">
 				<span class="iconfont">&#xe600;</span>
-				<span class="item-info">公告栏</span>
+				<span class="item-info">公告管理</span>
 			</a>
 			<span class="triangle" style="left: 325px;"></span>
 		</nav>
@@ -135,7 +131,7 @@
 				        <br />
                         密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                         <asp:TextBox ID="TxtPwd" 
-                            runat="server"></asp:TextBox>
+                            runat="server" TextMode="Password"></asp:TextBox>
 					
 					<span class="input">
 					
@@ -144,13 +140,13 @@
 					</span>
 				        <br />
                         确认密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 
-                        <asp:TextBox ID="TxtRpwd" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="TxtRpwd" runat="server" TextMode="Password"></asp:TextBox>
                         <asp:CompareValidator ID="CompareValidator1" runat="server" 
                             ControlToCompare="TxtPwd" ControlToValidate="TxtRpwd" ErrorMessage="两次密码不一致！" 
                             ForeColor="Red"></asp:CompareValidator>
                         <br />
                         用户类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 
-                        <asp:DropDownList ID="DropType" runat="server">
+                                            <asp:DropDownList ID="DropType" runat="server">
                         </asp:DropDownList>
                         <br />
                         <br />

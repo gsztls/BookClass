@@ -25,12 +25,15 @@ public partial class login : System.Web.UI.Page
         if(dt.Tables[0].Rows.Count >0)
             {
                 Session["StuId"] = name;
-                     //if(Request.Cookies["StuID"].Value == null)
-                     //{
-                     //    Response.Cookies["StuId"].Value =name;
-                     //    Response.Cookies["Password"].Value =pwd;
-                     //}
-                Response.Redirect("index.aspx");
+                DataSet dt2 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + name + "' AND Type = '管理员'");
+                if (dt2.Tables[0].Rows.Count > 0)
+                {
+                    Response.Redirect("Admin/AdminIndex.aspx");
+                }
+                else
+                {
+                    Response.Redirect("index.aspx");
+                }
             }
         else
             {

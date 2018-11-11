@@ -7,16 +7,39 @@
 	<meta charset="UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>  <!-- 以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->  
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>中南大学教室预约管理系统——登录</title>
+	<title>登录——中南大学教室预约管理系统</title>
 	<link rel="stylesheet" href="css/normalize.css"/>
 	<link rel="stylesheet" href="css/common.css"/>
 	<link rel="stylesheet" href="css/main.css"/>
+    <style type="text/css">
+    .button{
+ 	width:150px;
+ 	height:50px;
+ 	line-height: 50px;
+ 	text-align: center;
+ 	letter-spacing: .3rem;
+ 	font-size: 2.5rem;
+ 	display: block;
+ 	margin:20px auto;
+ 	border:none;
+ 	color:#fff;
+ 	background:rgba(114,198,130,1) !important;
+ 	-webkit-border-radius: 20px;
+ 	-moz-border-radius: 20px;
+ 	-o-border-radius: 20px;
+ 	border-radius: 20px;
+ 	-webkit-transition:background .8s;
+ 	-moz-transition:background .8s;
+ 	-o-transition:background .8s;
+ 	transition:background .8s;
+    }
+    </style>
 </head>
 <body>
 	<header>
 		<div class="logo">
 			<img src="images/logo1.png" alt="中南大学logo" class="logo-img vertical-center"/>
-			<h1 class="vertical-center">教室预约管理系统</h1>
+			<h1 class="vertical-center">中南大学教室预约管理系统</h1>
 		</div>
 	</header><!-- header结束 -->
 	<div class="login-container">
@@ -26,18 +49,20 @@
 			<img src="images/seat.png" alt=""/>
 			<img src="images/computer.png" alt=""/>
 		</section>
-		<section class="login vertical-center">
-			<form id="mylogin" runat="server">
+		<form id="mylogin" runat="server">
+            <section class="login vertical-center">
+		
 				<div><span>学号：</span><asp:TextBox id="login_num" maxlength="11" runat="server"></asp:TextBox>
                    
                 </div>
 				<div><span>密码：</span><asp:TextBox  id="login_pwd" runat="server" TextMode="Password"></asp:TextBox>
                     
                 </div>
-				<asp:button class="login-btn" runat ="server" Text="登录" 
-                    onclick="Unnamed1_Click"></asp:button>
+				<asp:button class="button" runat ="server" Text="登录" onclick="Unnamed1_Click"></asp:button>
+                    </section>
 			</form>
-		</section>
+    
+	
 	</div>	
 </body>
 </html>

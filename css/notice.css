@@ -2,17 +2,16 @@
 	margin:20px auto;
 }
 .container .nav-list .triangle{
-	right: 60px;
+	left: 861px;
 }
 .container .nav-list #nav-item8 .item-info{
-	display: none !important;
 }
 .notice-content{
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-o-box-sizing: border-box;
 	box-sizing: border-box;
-	width:78%;
+	width:79%;
 	height:500px;
 	background:#fff;
 	padding:50px 120px;
@@ -24,8 +23,8 @@
 	color:#444;
 	font-size:1.6rem;
     top: -5px;
-    left: 92px;
-    width: 286px;
+    left: 7px;
+    width: 92px;
     margin-top: 14px;
 }
 .notice-content .notice-date{

@@ -35,43 +35,42 @@
 			</div>
 		</section>
 		<section class="seat-select box">
-			<img src="../images/seat1.png" alt="教室查询" class="horizontal-center"/>
+			<img src="../images/seat1.png" alt="申请处理" class="horizontal-center"/>
 			<span class="horizontal-center">申请处理</span>
-			<a href="../RoomSelect.aspx"></a>
+			<a href="DealRequre.aspx"></a>
 		</section>
 		<section class="seat-operate">
 			<div class="register box">
-				<img src="../images/write.png" alt="联系管理员" class="vertical-center"/>
+				<img src="../images/write.png" alt="账号管理" class="vertical-center"/>
 				<span class="vertical-center">账号管理</span>
-				<a href="room_register.html"></a>
+				<a href="AccountManagement.aspx"></a>
 			</div>
 			<div class="cancel-reserve box">
-				<img src="../images/delete.png" alt="取消预约" class="vertical-center"/>
+				<img src="../images/delete.png" alt="系统设置" class="vertical-center"/>
 				<span class="vertical-center">系统设置</span>
-				<a href="cancel_reserve.html"></a>
+				<a href="Setting.aspx"></a>
 			</div>
 		</section>
 		<section class="seat-release box">
-			<img src="../images/recyle.png" alt="可借教室" class="horizontal-center"/>
-			<span class="horizontal-center">可借教室</span>
-			<a href="room_release.html"></a>
+			<img src="../images/recyle.png" alt="教师列表" class="horizontal-center"/>
+			<span class="horizontal-center">教室列表</span>
+			<a href="ClassList.aspx"></a>
 		</section>
 		<section class="reserve-record box">
-			<img src="../images/record.png" alt="释放教室" class="vertical-center"/>
+			<img src="../images/record.png" alt="教室管理" class="vertical-center"/>
 			<span class="vertical-center">教室管理</span>
-			<a href="reserve_record.html"></a>
+			<a href="ClassManagement.aspx"></a>
 		</section>
 		<section class="notice-board box">
-			<img src="../images/warning.png" alt="公告栏" class="vertical-center"/>
+			<img src="../images/warning.png" alt="公告管理" class="vertical-center"/>
 			<div class="notice-info vertical-center">
 				<h3>公告管理</h3>
 			</div>
-			<a href="notice.html"></a>
+			<a href="ManageNotice.aspx"></a>
 		</section>
 		<section class="default-record box">
-			<img src="../images/wrong.png" alt="超时使用记录" class="vertical-center"/>
-			<span class="vertical-center">超时记录</span>
-			<a href="default_record.html"></a>
+			<img src="../images/wrong.png" alt="更多功能" class="vertical-center"/>
+			<span class="vertical-center">更多功能研发中……</span>
 		</section>
 	</div><!-- container结束 -->
 </body>

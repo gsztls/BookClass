@@ -7,7 +7,7 @@
 	<meta charset="UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>  <!-- 以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->  
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>中南大学教室预约系统</title>
+	<title>中南大教室预约管理系统</title>
 	<link rel="stylesheet" href="css/normalize.css"/>
 	<link rel="stylesheet" href="css/common.css"/>
 	<link rel="stylesheet" href="css/main.css"/>
@@ -48,18 +48,18 @@
 			<div class="cancel-reserve box">
 				<img src="images/delete.png" alt="取消预约" class="vertical-center"/>
 				<span class="vertical-center">取消预约</span>
-				<a href="cancel_reserve.html"></a>
+				<a href="CancelBook.aspx"></a>
 			</div>
 		</section>
 		<section class="seat-release box">
 			<img src="images/recyle.png" alt="可借教室" class="horizontal-center"/>
 			<span class="horizontal-center">可借教室</span>
-			<a href="room_release.html"></a>
+			<a href="ClassList.aspx"></a>
 		</section>
 		<section class="reserve-record box">
-			<img src="images/record.png" alt="释放教室" class="vertical-center"/>
+			<img src="images/record.png" alt="预约记录" class="vertical-center"/>
 			<span class="vertical-center">预约记录</span>
-			<a href="reserve_record.html"></a>
+			<a href="BookRecord.aspx"></a>
 		</section>
 		<section class="notice-board box">
 			<img src="images/warning.png" alt="公告栏" class="vertical-center"/>
@@ -67,7 +67,7 @@
 				<h3>公告</h3>
 				<p>实验室2017.1.1暂停开放通知</p>
 			</div>
-			<a href="notice.html"></a>
+			<a href="Notice.aspx"></a>
 		</section>
 		<section class="default-record box">
 			<img src="images/wrong.png" alt="更多功能" class="vertical-center"/>

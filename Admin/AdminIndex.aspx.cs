@@ -9,23 +9,24 @@ public partial class index : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-      //  CheckLogin();
+        CheckLogin();
     }
     protected void Log_Off(object sender, EventArgs e)
     {
         Session.Abandon();
         Response.Redirect("login.aspx");
     }
-    protected void CheckLogin()
+    public void CheckLogin() //以下代码检测用户登录参数是否正确
     {
+
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='" + StuId + "'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '管理员'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
             Console.Write("您的参数有误，请尝试重新登录。");
-            Response.Redirect("login.aspx");
-            Response.End();
+            //  System.Threading.Thread.Sleep(10000); 
+            Response.Redirect("../login.aspx");
             return;
         }
         else

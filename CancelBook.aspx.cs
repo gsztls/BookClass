@@ -17,7 +17,7 @@ public partial class RoomSelect : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // CheckLogin();
+        CheckLogin();
 
         //以下代码用于获取管理员设置的教室可提前预约的天数和需要提前预约的天数
         DataSet dtSystem = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[System]");
@@ -27,7 +27,7 @@ public partial class RoomSelect : System.Web.UI.Page
         }
         if (dtSystem.Tables[0].Rows[0][2] != null)    //如果有设置则为设置的值
         {
-            BookDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
+            NeedDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
         }
         if (!IsPostBack)
         {
@@ -50,7 +50,7 @@ public partial class RoomSelect : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='" + StuId + "'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '用户'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -84,10 +84,10 @@ public partial class RoomSelect : System.Web.UI.Page
 
     protected void GridView_BookListStartBind()    //初始时为GridView绑定数据
     {
-        DataSet DtBook = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE BookDate = '" + DateTime.Now.ToLongDateString() + "'AND IsBooked ='0'AND BookStuNum = '"+Session["StuId"].ToString()+"'");
+        DataSet DtBook = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE BookDate = '" + DateTime.Now.ToLongDateString() + "'AND IsBooked ='等待管理员通过'AND BookStuNum = '"+Session["StuId"].ToString()+"'");
         for (int i = 1; i <= BookDay; i++)
         {
-            DataSet DtBook1 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE BookDate = '" + DateTime.Now.AddDays(i).ToLongDateString() + "'AND IsBooked ='0' AND BookStuNum = '"+Session["StuId"].ToString()+"'");
+            DataSet DtBook1 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE BookDate = '" + DateTime.Now.AddDays(i).ToLongDateString() + "'AND IsBooked ='等待管理员通过' AND BookStuNum = '"+Session["StuId"].ToString()+"'");
             DtBook.Merge(DtBook1);
         }
         GridView_BookList.DataSource = DtBook;
@@ -102,10 +102,10 @@ public partial class RoomSelect : System.Web.UI.Page
             Response.Write("<script>alert('请选择教室地址和编号！')</script>");
             return;
         }
-        DataSet DtBook = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE [Address]='" + Drop_Address.SelectedValue + "' AND [ClassNum] ='" + Drop_ClassNum.SelectedValue + "' AND BookDate = '" + DateTime.Now.ToLongDateString() + "'AND IsBooked ='0'AND BookStuNum = '" + Session["StuId"].ToString() + "'");
+        DataSet DtBook = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE [Address]='" + Drop_Address.SelectedValue + "' AND [ClassNum] ='" + Drop_ClassNum.SelectedValue + "' AND BookDate = '" + DateTime.Now.ToLongDateString() + "'AND IsBooked ='等待管理员通过'AND BookStuNum = '" + Session["StuId"].ToString() + "'");
         for (int i = 1; i <= BookDay; i++)
         {
-            DataSet DtBook1 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE [Address]='" + Drop_Address.SelectedValue + "' AND [ClassNum] ='" + Drop_ClassNum.SelectedValue + "' AND BookDate = '" + DateTime.Now.AddDays(i).ToLongDateString() + "' AND IsBooked ='0'AND BookStuNum = '" + Session["StuId"].ToString() + "'");
+            DataSet DtBook1 = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[BookList] WHERE [Address]='" + Drop_Address.SelectedValue + "' AND [ClassNum] ='" + Drop_ClassNum.SelectedValue + "' AND BookDate = '" + DateTime.Now.AddDays(i).ToLongDateString() + "' AND IsBooked ='等待管理员通过'AND BookStuNum = '" + Session["StuId"].ToString() + "'");
             DtBook.Merge(DtBook1);
         }
         GridView_BookList.DataSource = DtBook;
