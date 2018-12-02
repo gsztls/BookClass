@@ -27,7 +27,7 @@ public partial class Admin_AccountManagement : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '管理员'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = 'manager'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -46,29 +46,22 @@ public partial class Admin_AccountManagement : System.Web.UI.Page
 
     protected void Button1_Click(object sender, EventArgs e)
     {
+        string StuId = TxtStuId.Text;
         string Name = TxtName.Text;
-        string Pwd = TxtPwd.Text;
-        string Rpwd = TxtRpwd.Text;
-        String StuId = TxtStuId.Text;
-        string Type = DropType.SelectedValue.ToString();
-        if (Name == "" || Pwd == "" || Rpwd == "" || StuId == "" || Type == "" || Type == "--请选择--")
+        if (Name == ""||StuId=="")
         {
             Response.Write("<script>alert('信息填写不完整！')</script>");
             return;
         }
-        if (Pwd != Rpwd)
-        {
-            Response.Write("<script>alert('两次密码不一致！')</script>");
-            return;
-        }
+        
         DataSet DsAdmin = SqlHelper.ExecuteDataset(CommandType.Text,"SELECT * FROM [BookClass].[dbo].[Admin] WHERE StuId ='"+StuId+"'");
         if (DsAdmin.Tables[0].Rows.Count > 0)
         {
             Response.Write("<script>alert('该用户已存在！')</script>");
             return;
         }
-        int JudgeNum1 = SqlHelper.ExecuteNonQuery(CommandType.Text,"INSERT INTO [BookClass].[dbo].[UserInfo](StuId,Type,UserName) VALUES ('"+StuId+"','"+Type+"','"+Name+"')");
-        int JudgeNum2 = SqlHelper.ExecuteNonQuery(CommandType.Text, "INSERT INTO [BookClass].[dbo].[Admin](StuId,PassWord) VALUES ('" + StuId + "','"+Pwd+"')");
+        int JudgeNum1 = SqlHelper.ExecuteNonQuery(CommandType.Text,"INSERT INTO [BookClass].[dbo].[UserInfo](StuId,Type,UserName) VALUES ('"+StuId+"','"+Name+"')");
+        int JudgeNum2 = SqlHelper.ExecuteNonQuery(CommandType.Text, "INSERT INTO [BookClass].[dbo].[Admin](StuId,PassWord) VALUES ('" + StuId + "')");
         if (JudgeNum1 > 0 && JudgeNum2 > 0)
         {
             Response.Write("<script>alert('添加成功！')</script>");

@@ -157,7 +157,7 @@
                 
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                     ConnectionString="<%$ ConnectionStrings:BookClassConnectionString %>" 
-                    SelectCommand="SELECT [Title], [Text], [Time], [ID] FROM [Notice]">
+                    SelectCommand="SELECT [Title], [Text], [Time], [ID] FROM [Notice] ORDER BY [Time] DESC">
                 </asp:SqlDataSource>
 		</div>
     </form>

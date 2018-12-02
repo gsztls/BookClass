@@ -64,18 +64,16 @@
 					<br />
 					<asp:GridView ID="GridView_Contact" runat="server" Height="89px" 
                         Width="1043px" CellPadding="4" ForeColor="#333333" 
-                        GridLines="None"  HorizontalAlign="Center" AutoGenerateColumns="False" 
-                        DataKeyNames="ID" DataSourceID="SqlDataSource1" >
+                        GridLines="None"  HorizontalAlign="Center" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnSelectedIndexChanged="GridView_Contact_SelectedIndexChanged" >
                         <RowStyle HorizontalAlign="Center" />  
                         <AlternatingRowStyle BackColor="White" />
                         <Columns>
-                            <asp:BoundField DataField="ID" HeaderText="编号" InsertVisible="False" 
-                                ReadOnly="True" SortExpression="ID" />
+                            <asp:BoundField DataField="EmployId" HeaderText="编号" SortExpression="address" />
                             <asp:BoundField DataField="Name" HeaderText="管理员姓名" SortExpression="Name" />
-                            <asp:BoundField DataField="Phone" HeaderText="电话" SortExpression="Phone" />
-                            <asp:BoundField DataField="Email" HeaderText="邮箱" SortExpression="Email" />
-                            <asp:BoundField DataField="Address" HeaderText="值班地址" 
-                                SortExpression="Address" />
+                            <asp:BoundField DataField="telephone" HeaderText="电话" SortExpression="telephone" />
+                            <asp:BoundField DataField="mail" HeaderText="邮箱" SortExpression="mail" />
+                            <asp:BoundField DataField="address" HeaderText="地址" 
+                                SortExpression="address" />
                         </Columns>
                         <EditRowStyle BackColor="#2461BF" />
                         <FooterStyle BackColor="#6DBAF0" Font-Bold="True" ForeColor="White" />
@@ -89,8 +87,8 @@
                         <SortedDescendingHeaderStyle BackColor="#4870BE" />
                     </asp:GridView>
 				    <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                        ConnectionString="<%$ ConnectionStrings:BookClassConnectionString %>" 
-                        SelectCommand="SELECT [ID], [Name], [Phone], [Email], [Address] FROM [AdminInfo]">
+                        ConnectionString="<%$ ConnectionStrings:BookClassConnectionString2 %>" 
+                        SelectCommand="SELECT [EmployId], [Name], [telephone], [mail], [address] FROM [Instructor]" ProviderName="System.Data.SqlClient">
                     </asp:SqlDataSource>
 				</div>
 				<div id="info3">

@@ -77,7 +77,7 @@ public partial class Notice : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '用户'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type != 'manager'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();

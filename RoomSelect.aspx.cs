@@ -27,7 +27,8 @@ public partial class RoomSelect : System.Web.UI.Page
         }
         if (dtSystem.Tables[0].Rows[0][2] != null)    //如果有设置则为设置的值
         {
-            NeedDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
+            //NeedDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][2].ToString());
+            NeedDay = Convert.ToInt32(dtSystem.Tables[0].Rows[0][1].ToString());
         }
         if (!IsPostBack)
         {
@@ -83,7 +84,7 @@ public partial class RoomSelect : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '用户'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = 'Student'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -125,12 +126,12 @@ public partial class RoomSelect : System.Web.UI.Page
     {
         ArrayList ArrEndTime = new ArrayList();
         DateTime StartTime = Convert.ToDateTime(Drop_StartTime.SelectedValue.ToString());
-        for (int i = NeedDay; i <= BookDay; i++)
+        for (int i = 0; i <= NeedDay; i++)
         {
             int IntSelectEndYear = StartTime.AddDays(i).Year;
             int IntSelectEndMonth = StartTime.AddDays(i).Month;
             int IntSelectEndDay = StartTime.AddDays(i).Day;
-            if (IntSelectEndDay > DateTime.Now.Day + BookDay) break;
+            if (IntSelectEndDay > DateTime.Now.Day + NeedDay) break;
             string SelectEndDate = IntSelectEndYear.ToString() + "年" + IntSelectEndMonth.ToString() + "月" + IntSelectEndDay.ToString() + "日";
             ArrEndTime.Add(SelectEndDate);
         }

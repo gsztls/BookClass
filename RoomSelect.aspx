@@ -87,7 +87,7 @@
                     起始时间：<asp:DropDownList ID="Drop_StartTime" runat="server" AutoPostBack="true" 
                         onselectedindexchanged="Drop_StartTime_SelectedIndexChanged" >
         </asp:DropDownList>
-                    结束时间：<asp:DropDownList ID="Drop_EndTime" runat="server">
+                    结束时间：<asp:DropDownList ID="Drop_EndTime" runat="server" >
         </asp:DropDownList>
 				    <asp:Button ID="Button1" runat="server" Text="查询" onclick="Button1_Click" />
 				</div>

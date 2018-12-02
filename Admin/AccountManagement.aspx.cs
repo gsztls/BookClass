@@ -25,7 +25,7 @@ public partial class Admin_AccountManagement : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '管理员'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = 'manager'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -68,10 +68,9 @@ public partial class Admin_AccountManagement : System.Web.UI.Page
     {
         string ID = DataList1.DataKeys[e.Item.ItemIndex].ToString();  
         int JudgeNum1 = SqlHelper.ExecuteNonQuery(CommandType.Text, "DELETE FROM [BookClass].[dbo].[UserInfo] WHERE ID ='" + ID + "'");
-        int JudgeNum2 = SqlHelper.ExecuteNonQuery(CommandType.Text, "DELETE FROM [BookClass].[dbo].[Admin] WHERE ID='" + ID + "'");
         DataList1.EditItemIndex = -1;
         DataList1Bind(pds.CurrentPageIndex);
-        if (JudgeNum1> 0 && JudgeNum2>0)
+        if (JudgeNum1> 0)
         {
             Response.Write("<script>alert('删除成功！')</script>");
             return;
@@ -100,7 +99,7 @@ public partial class Admin_AccountManagement : System.Web.UI.Page
         {
             Response.Write("<script>alert('修改失败！')</script>");
             return;
-        }     
+        }
     }
     protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
     {

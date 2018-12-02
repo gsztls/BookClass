@@ -16,7 +16,7 @@ public partial class ContactManager : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '用户'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = 'student'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -31,5 +31,10 @@ public partial class ContactManager : System.Web.UI.Page
             label_stuNum.Text = dt1.Tables[0].Rows[0][1].ToString();
             label_user.Text = dt1.Tables[0].Rows[0][3].ToString();
         }
+    }
+
+    protected void GridView_Contact_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }

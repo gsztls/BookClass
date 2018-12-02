@@ -65,7 +65,6 @@
 			<img src="images/warning.png" alt="公告栏" class="vertical-center"/>
 			<div class="notice-info vertical-center">
 				<h3>公告</h3>
-				<p>实验室2017.1.1暂停开放通知</p>
 			</div>
 			<a href="Notice.aspx"></a>
 		</section>

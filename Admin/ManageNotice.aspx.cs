@@ -22,7 +22,7 @@ public partial class Notice : System.Web.UI.Page
     {
 
         String StuId = (string)Session["StuId"];
-        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = '管理员'");
+        DataSet dt = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[UserInfo] WHERE StuId ='" + StuId + "'AND Type = 'manager'");
         if (dt.Tables[0].Rows.Count == 0)
         {
             Session.Abandon();
@@ -40,7 +40,7 @@ public partial class Notice : System.Web.UI.Page
     }
     protected void DataList1Bind(int currentpage)
     {
-        DataSet DsNotice = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Notice]");
+        DataSet DsNotice = SqlHelper.ExecuteDataset(CommandType.Text, "SELECT * FROM [BookClass].[dbo].[Notice] ORDER BY [Time] DESC");
         pds.AllowPaging = true;
         pds.PageSize = 10;
         pds.CurrentPageIndex = currentpage;
