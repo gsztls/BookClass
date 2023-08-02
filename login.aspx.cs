@@ -15,9 +15,9 @@ using System.Data;
 
 public partial class login : System.Web.UI.Page
 {
-    private string client_id = "09d24e52ce2ade62";
+    private string client_id = "******";
     private string redirect_uri = "http://www.rosyclouds.top/";
-    private string client_secret = "6ccc753fae0e45060e1b4d9e0f3b0b16";
+    private string client_secret = "********";
 
     protected void Page_Load(object sender, EventArgs e)
     {
